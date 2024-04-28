@@ -3,8 +3,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 const axios = require('axios');
 
-app.get('/api/definition/:word', async (req, res) => {
-  const word = req.params.word;
+app.get('/api/definition', async (req, res) => {
+  const word = req.query.word;  // Accessing the word from the query parameters
+  if (!word) {
+      return res.status(400).send("No word provided");
+  }
+
   const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
 
   try {
